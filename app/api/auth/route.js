@@ -24,8 +24,7 @@ export async function POST(req) {
       const user = await currentUser();
       if (!user) return fail("Faça login novamente.", 401);
       if (!compare(body.oldPassword || "", user.password)) return fail("Senha atual incorreta.");
-      if (typeof body.newPassword !== "string" || body.newPassword.length < 12 || body.newPassword.length > 128) return fail("A nova senha deve ter entre 12 e 128 caracteres.");
-      if (body.newPassword === body.oldPassword) return fail("Escolha uma senha diferente.");
+      if (typeof body.newPassword !== "string" || body.newPassword.length === 0) return fail("Informe a nova senha.");
       const users = await readUsers();
       const idx = users.findIndex(x => x.id === user.id);
       if (idx < 0) return fail("Usuário não encontrado.", 404);
